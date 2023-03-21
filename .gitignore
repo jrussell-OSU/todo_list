@@ -1,6 +1,7 @@
 # Custom
 venv/
 node_modules/
+config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
