@@ -25,10 +25,10 @@ def print_users_and_todos():
                 print(f'{todo.id} => {todo.to_dict()}')
 
 
-# print_users_and_todos()
+print_users_and_todos()
 
 
-@app.route('/')
+@app.route('/data')
 def get_time():
     x = datetime.datetime.now()
 
@@ -42,4 +42,4 @@ def get_time():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='localhost', port=5000, debug=True)
