@@ -1,10 +1,26 @@
 import * as React from 'react'
-import * as useState from 'react'
-import * as useEffect from 'react'
-import * as PropTypes from 'prop-types'
+// import { FC } from 'react'
+import { Dialog } from 'material-ui/Dialog'
 
-const todoSlip = ({
+interface todoSlipProps {
+  title: string
+  description: string
+  priority: number
+}
 
-})
+const todoSlip = (
+  prop:
+  {
+    title: string
+    description: string
+    priority: number
+  }
+): JSX.Element => {
+  return (
+    <Dialog>
+      <h1>test box</h1>
+    </Dialog>
+  )
+}
 
 export default todoSlip

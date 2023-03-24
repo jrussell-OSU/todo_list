@@ -16,7 +16,8 @@ module.exports = {
     tsconfigRootDir: __dirname
   },
   plugins: [
-    'react'
+    'react',
+    '@typescript-eslint'
   ],
   rules: {
   }

@@ -1,9 +1,8 @@
 import './App.css'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import * as PropTypes from 'prop-types'
 
-function App () {
+function App (): JSX.Element {
   // usestate for setting a javascript
   // object for storing and using data
   const [data, setdata] = useState({
@@ -16,7 +15,6 @@ function App () {
   useEffect(() => {
     // Using fetch to fetch the api from
     // flask server it will be redirected to proxy
-    console.log("hello")
     fetch('/data')
       .then(async (res) => {
         await res.json()
@@ -31,7 +29,7 @@ function App () {
           })
       })
       // eslint-disable-next-line no-console
-      .catch((error) => { console.error(`Error fetching '/': ${error}`) })
+      .catch((error: string) => { console.error(`Error fetching '/': ${error}`) })
   }, [])
 
   return (
