@@ -1,15 +1,15 @@
 import './App.css'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
+import TodoSlip from './components/TodoSlip'
 
 function App (): JSX.Element {
   // usestate for setting a javascript
   // object for storing and using data
   const [data, setdata] = useState({
     name: '',
-    age: 0,
-    date: '',
-    programming: ''
+    priority: 0,
+    description: ''
   })
   // Using useEffect for single rendering
   useEffect(() => {
@@ -22,9 +22,8 @@ function App (): JSX.Element {
             // Setting a data from api
             setdata({
               name: newData.Name,
-              age: newData.Age,
-              date: newData.Date,
-              programming: newData.programming
+              priority: newData.priority,
+              description: newData.description
             })
           })
       })
@@ -34,15 +33,11 @@ function App (): JSX.Element {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>React and flask</h1>
-        {/* Calling a data from setdata for showing */}
-        <p>{data.name}</p>
-        <p>{data.age}</p>
-        <p>{data.date}</p>
-        <p>{data.programming}</p>
-
-      </header>
+      <TodoSlip
+        name={data.name}
+        description={data.description}
+        priority={data.priority}
+      />
     </div>
   )
 }
