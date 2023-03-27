@@ -13,12 +13,8 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
 .todo-slip {
   padding: "20px";
-  color: brown;
   font-size: "30px";
 }
+

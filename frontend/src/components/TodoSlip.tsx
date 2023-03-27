@@ -2,12 +2,14 @@ import * as React from 'react'
 import '../App.css'
 import { useState } from 'react'
 // import { FC } from 'react'
-import { Dialog, DialogTitle, DialogContent } from '@mui/material'
-import styled from '@emotion/styled'
-
-const Container = styled.div(props => ({
-  color: 'brown'
-}))
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  Paper
+} from '@mui/material'
+// import styled from '@emotion/styled'
 
 const TodoSlip = (
   props:
@@ -20,21 +22,25 @@ const TodoSlip = (
   const [dialogIsOpen] = useState(true)
 
   return (
-    <div>
-      <Dialog
-        className="todo-slip"
-        open={ dialogIsOpen }
+    <Dialog
+      open={dialogIsOpen}
+    >
+      <Paper
+        elevation={2}
+        sx={{
+          backgroundColor: 'lightGray'
+        }}
       >
         <DialogTitle>Task</DialogTitle>
         <DialogContent>
-          <Container>
+          <DialogContentText>
             <h5>Name: {props.name}</h5>
             <h5>Description: {props.description}</h5>
             <h5>Priority: {props.priority}</h5>
-          </Container>
+          </DialogContentText>
         </DialogContent>
-      </Dialog>
-    </div>
+      </Paper>
+    </Dialog>
   )
 }
 

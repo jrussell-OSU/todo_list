@@ -33,17 +33,15 @@ function App (): JSX.Element {
 
   return (
     <div className="App">
-      <TodoSlip
-        name={data.name}
-        description={data.description}
-        priority={data.priority}
-      />
+      <div className="todoSlipsDiv">
+        <TodoSlip
+          name={data.name}
+          description={data.description}
+          priority={data.priority}
+        />
+      </div>
     </div>
   )
-}
-
-App.propTypes = {
-
 }
 
 export default App
