@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-import datetime
 from google.cloud import firestore
 
 
@@ -11,7 +10,7 @@ db = firestore.Client()
 
 
 def print_users_and_todos():
-
+    """Purely for testing, TODO: Delete"""
     users_ref = db.collection('users')
     users = users_ref.stream()
 
@@ -27,18 +26,32 @@ def print_users_and_todos():
 
 print_users_and_todos()
 
+todos = [
+            {
+                'name': 'walk the dogs',
+                'difficulty': 8,
+                'priority': 'high',
+                'notes': 'Practice loose leash training'
+            },
+            {
+                'name': 'run dishwasher',
+                'difficulty': 4,
+                'priority': 'medium',
+                'notes': ''
+            },
+            {
+                'name': 'feed pets',
+                'difficulty': 2,
+                'priority': 'high',
+                'notes': ''
+            }
+        ]
+
 
 @app.route('/data')
-def get_time():
-    x = datetime.datetime.now()
-
+def get_todos():
     # Returning an api for showing in  reactjs
-    return {
-        'Name': "Jacob",
-        "Age": "36",
-        "Date": x,
-        "programming": "python"
-        }
+    return todos
 
 
 if __name__ == "__main__":
