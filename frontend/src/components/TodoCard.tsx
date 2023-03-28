@@ -7,7 +7,8 @@ import {
   Typography,
   CardActionArea,
   createTheme,
-  ThemeProvider
+  ThemeProvider,
+  ButtonBase
 } from '@mui/material'
 // import styled from '@emotion/styled'
 import '@fontsource/roboto'
@@ -33,6 +34,10 @@ const theme = createTheme({
   }
 })
 
+function anything (): void {
+  console.log('card click')
+}
+
 const TodoCard = (
   props:
   {
@@ -45,21 +50,28 @@ const TodoCard = (
   return (
     <div className='todoCard'>
       <ThemeProvider theme={theme}>
-        <Card>
+        <Card
+          raised={true}
+        >
           <CardActionArea>
-            <CardContent>
-              <Typography
-                gutterBottom
-                variant="body1"
-                color="primary"
-                sx={{ fontWeight: 'bold' }}
-              >
-                {props.name} <br/>
-                priority: {props.priority} <br/>
-                difficulty (1-10): {props.difficulty} <br/>
-                notes: {props.notes} <br/>
-              </Typography>
-            </CardContent>
+            <ButtonBase
+              component="span"
+              onClick={anything}
+            >
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant="body1"
+                  color="primary"
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  {props.name} <br/>
+                  priority: {props.priority} <br/>
+                  difficulty (1-10): {props.difficulty} <br/>
+                  notes: {props.notes} <br/>
+                </Typography>
+              </CardContent>
+            </ButtonBase>
           </CardActionArea>
         </Card>
       </ThemeProvider>
