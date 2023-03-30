@@ -5,10 +5,12 @@
 .App {
 }
 
-.todoCard {
+.todoCardDiv {
   justify-content: 'space-between';
-  display: flex;
-  flex-direction: column;
+  display: 'flex';
+}
+
+.todoCard {
   padding: 4px;
   width: 200px;
   border: 1;
