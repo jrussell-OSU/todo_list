@@ -5,30 +5,32 @@ import TodoSlip from './components/TodoCard'
 import '@fontsource/roboto'
 
 function App(): JSX.Element {
-  // usestate for setting a javascript
-  // object for storing and using data
-
   const [todoSlipsArray, setTodoSlips] = useState([
-      { name: '', difficulty: 1, priority: '', notes: '' },
+    { name: '', difficulty: 1, priority: '', notes: '' },
   ])
+
   useEffect(() => {
-    //flask server it will be redirected to proxy
     fetch('/data')
       .then(async (res) => {
-        await res.json().then((newData) => {
-          // Setting a data from api
-          setTodoSlips(newData)
-        })
+        await res
+          .json()
+          .then(
+            (
+              newData: { name: string; difficulty: number; priority: string; notes: string }[],
+            ): void => {
+              setTodoSlips(newData)
+            },
+          )
       })
-      // eslint-disable-next-line no-console
       .catch((error: string) => {
+        // eslint-disable-next-line no-console
         console.error(`Error fetching '/': ${error}`)
       })
   }, [])
 
   const todoSlipsComponents = (): JSX.Element[] => {
     const componentsArr: JSX.Element[] = []
-    for (let i = 0; i < todoSlipsArray.length; i++) {
+    for (let i = 0; i < todoSlipsArray.length; i += 1) {
       componentsArr.push(
         <TodoSlip
           key={i}

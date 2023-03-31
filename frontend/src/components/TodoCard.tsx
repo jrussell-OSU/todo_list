@@ -14,59 +14,39 @@ import {
 import '@fontsource/roboto'
 import { green, purple } from '@mui/material/colors'
 
-interface Theme {
-  palette: {
-    background?: Record<string, unknown>
-    primary?: Record<string, unknown>
-    secondary?: Record<string, unknown>
-  }
-  todoCardSx: {
-    width?: number
-  }
-}
-
-interface ThemeOptions {
-  todoCardSx: {
-    width?: number
-  }
-}
-
 const theme = createTheme({
   palette: {
     background: {
       paper: purple[500],
     },
     primary: {
-      // light: will be calculated from palette.primary.main,
       main: green[500],
-      // dark: will be calculated from palette.primary.main,
-      //contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
       light: '#0066ff',
-      main: "#0044ff",
-      // dark: will be calculated from palette.secondary.main,
+      main: '#0044ff',
       contrastText: '#ffcc00',
     },
   },
-
-  //todoCardSx: {}
 })
 
 const onTodoCardClick = (): void => {
-  console.log('card click')
+  // console.log('card click')
 }
 
-const TodoCard = (props: {
+type TodoCardProps = {
   name: string
   difficulty: number
   priority: string
   notes: string
-}): JSX.Element => {
+}
+
+function TodoCard(props: TodoCardProps): JSX.Element {
+  const { name, difficulty, priority, notes } = props
   return (
     <div className='todoCard'>
       <ThemeProvider theme={theme}>
-        <Card raised={true}>
+        <Card raised>
           <CardActionArea>
             <ButtonBase component='span' onClick={onTodoCardClick}>
               <CardContent>
@@ -76,10 +56,10 @@ const TodoCard = (props: {
                   color='primary'
                   sx={{ fontWeight: 'bold' }}
                 >
-                  {props.name} <br />
-                  priority: {props.priority} <br />
-                  difficulty (1-10): {props.difficulty} <br />
-                  notes: {props.notes} <br />
+                  {name} <br />
+                  priority: {priority} <br />
+                  difficulty (1-10): {difficulty} <br />
+                  notes: {notes} <br />
                 </Typography>
               </CardContent>
             </ButtonBase>

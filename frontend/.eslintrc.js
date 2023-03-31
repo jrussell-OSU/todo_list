@@ -2,28 +2,9 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    jest: true,
   },
-  //overrides: [
-    //{
-      //files: ['*.ts', '*.tsx'], // Your TypeScript files extension
-
-      // As mentioned in the comments, you should extend TypeScript plugins here,
-      // instead of extending them outside the `overrides`.
-      // If you don't want to extend any rules, you don't need an `extends` attribute.
-      //extends: [
-        //'plugin:@typescript-eslint/recommended',
-        //'plugin:@typescript-eslint/recommended-requiring-type-checking',
-      //],
-
-      //parserOptions: {
-        //project: ['./tsconfig.json'], // Specify it only for TypeScript files
-      //},
-    //},
-  //],
   extends: [
     'plugin:react/recommended',
-    // 'standard-with-typescript',
     'airbnb-typescript-prettier',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -36,7 +17,7 @@ module.exports = {
     project: 'tsconfig.eslint.json',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['react', '@typescript-eslint', 'react-hooks', 'prettier'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks', 'autofix', 'prettier'],
   rules: {
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'import/extensions': [
@@ -56,6 +37,16 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'import/prefer-default-export': 'off',
     'react/prop-types': 'off',
+    'arrow-body-style': ['error', 'as-needed'],
+    'react/self-closing-comp': ['error', { component: true, html: true }],
+    'autofix/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+        destructuredArrayIgnorePattern: '^_',
+      },
+    ],
   },
   settings: {
     'import/resolver': {
