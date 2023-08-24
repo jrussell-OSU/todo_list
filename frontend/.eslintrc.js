@@ -15,9 +15,10 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: 'tsconfig.eslint.json',
+    // project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['react', '@typescript-eslint', 'react-hooks', 'autofix', 'prettier'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks', 'autofix'],
   rules: {
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'import/extensions': [

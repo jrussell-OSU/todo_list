@@ -31,7 +31,7 @@ const theme = createTheme({
 })
 
 const onTodoCardClick = (): void => {
-  // console.log('card click')
+  console.log('card click')
 }
 
 type TodoCardProps = {
