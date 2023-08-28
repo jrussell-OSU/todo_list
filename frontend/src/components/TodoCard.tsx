@@ -1,37 +1,31 @@
 import * as React from 'react'
+import { useState } from 'react'
+// import ReactDOMServer from 'react-dom/server'
 import '../App.css'
 // import { FC } from 'react'
 import {
   Card,
   CardContent,
   Typography,
-  CardActionArea,
   createTheme,
   ThemeProvider,
   ButtonBase,
 } from '@mui/material'
 // import styled from '@emotion/styled'
 import '@fontsource/roboto'
-import { green, purple } from '@mui/material/colors'
+import { blueGrey, grey } from '@mui/material/colors'
+import { Variant } from '@mui/material/styles/createTypography'
 
-const theme = createTheme({
-  palette: {
-    background: {
-      paper: purple[500],
-    },
-    primary: {
-      main: green[500],
-    },
-    secondary: {
-      light: '#0066ff',
-      main: '#0044ff',
-      contrastText: '#ffcc00',
-    },
-  },
-})
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    cardNormal: React.CSSProperties
+    cardStrikethrough: React.CSSProperties
+  }
 
-const onTodoCardClick = (): void => {
-  console.log('card click')
+  interface TypographyVariantsOptions {
+    cardNormal: React.CSSProperties
+    cardStrikethrough?: React.CSSProperties
+  }
 }
 
 type TodoCardProps = {
@@ -42,28 +36,55 @@ type TodoCardProps = {
 }
 
 function TodoCard(props: TodoCardProps): JSX.Element {
+  const [cardVariant, setCardVariant] = useState('cardNormal')
+
+  const theme = createTheme({
+    palette: {
+      background: {
+        paper: blueGrey[900],
+      },
+      primary: {
+        main: grey[50],
+      },
+      secondary: {
+        light: '#0066ff',
+        main: '#0044ff',
+        contrastText: '#ffcc00',
+      },
+    },
+    typography: {
+      cardNormal: {
+        textDecoration: 'none',
+      },
+      cardStrikethrough: {
+        textDecoration: 'line-through',
+      },
+    },
+  })
+
+  const onTodoCardClick = () => {
+    if (cardVariant === 'cardNormal') {
+      setCardVariant('cardStrikethrough')
+    } else {
+      setCardVariant('cardNormal')
+    }
+  }
+
   const { name, difficulty, priority, notes } = props
   return (
     <div className='todoCard'>
       <ThemeProvider theme={theme}>
         <Card raised>
-          <CardActionArea>
-            <ButtonBase component='span' onClick={onTodoCardClick}>
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant='body1'
-                  color='primary'
-                  sx={{ fontWeight: 'bold' }}
-                >
-                  {name} <br />
-                  priority: {priority} <br />
-                  difficulty (1-10): {difficulty} <br />
-                  notes: {notes} <br />
-                </Typography>
-              </CardContent>
-            </ButtonBase>
-          </CardActionArea>
+          <ButtonBase className='cardButton' component='span' onClick={onTodoCardClick}>
+            <CardContent>
+              <Typography gutterBottom variant={cardVariant as Variant} color='primary'>
+                {name} <br />
+                priority: {priority} <br />
+                difficulty (1-10): {difficulty} <br />
+                notes: {notes}
+              </Typography>
+            </CardContent>
+          </ButtonBase>
         </Card>
       </ThemeProvider>
     </div>

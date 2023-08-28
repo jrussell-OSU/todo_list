@@ -46,7 +46,10 @@ function App(): JSX.Element {
 
   return (
     <div className='App'>
-      <div className='todoSlipsDiv'>{todoSlipsComponents()}</div>
+      <div className='todoSlipsDiv'>
+        <br />
+        {todoSlipsComponents()}
+      </div>
     </div>
   )
 }
