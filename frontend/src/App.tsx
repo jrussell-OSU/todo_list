@@ -1,27 +1,28 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import './App.css'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd'
 import TodoSlip from './components/TodoCard'
 import '@fontsource/roboto'
 
 function App(): JSX.Element {
-  const [todoSlipsArray, setTodoSlips] = useState([
-    { name: '', difficulty: 1, priority: '', notes: '' },
-  ])
+  interface TodoSlip {
+    key: string
+    name: string
+    difficulty: number
+    priority: string
+    notes: string
+  }
+
+  const [todoSlipsArray, setTodoSlips] = useState<Array<TodoSlip>>([])
 
   useEffect(() => {
     fetch('/data')
       .then(async (res) => {
-        await res
-          .json()
-          .then(
-            (
-              newData: { name: string; difficulty: number; priority: string; notes: string }[],
-            ): void => {
-              setTodoSlips(newData)
-            },
-          )
+        await res.json().then((newData: TodoSlip[]): void => {
+          setTodoSlips(newData)
+        })
       })
       .catch((error: string) => {
         // eslint-disable-next-line no-console
@@ -29,33 +30,33 @@ function App(): JSX.Element {
       })
   }, [])
 
-  const todoSlipsComponents = (): JSX.Element[] => {
-    const componentsArr: JSX.Element[] = []
-    for (let i = 0; i < todoSlipsArray.length; i += 1) {
-      componentsArr.push(
-        <Draggable key={`draggable-${i}`} draggableId={`draggable-${i}`} index={i}>
-          {(provided) => (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-              <TodoSlip
-                key={i}
-                name={todoSlipsArray[i].name}
-                difficulty={todoSlipsArray[i].difficulty}
-                priority={todoSlipsArray[i].priority}
-                notes={todoSlipsArray[i].notes}
-              />
-            </div>
-          )}
-        </Draggable>,
-      )
+  // update order of TodoSlips
+  const onDragEnd = (result: DropResult) => {
+    if (result.destination) {
+      const reorderedItems = Array.from(todoSlipsArray)
+      const [reorderedItem] = reorderedItems.splice(result.source.index, 1)
+      reorderedItems.splice(result.destination.index, 0, reorderedItem)
+
+      setTodoSlips(reorderedItems)
     }
-    return componentsArr
   }
 
-  const onDragEnd = () => {
-    // update order of items
-    console.log('onDragEnd')
-  }
+  const todoSlipsComponents = (): JSX.Element[] =>
+    todoSlipsArray.map((item, index: number) => (
+      <Draggable key={item.key} draggableId={item.key} index={index}>
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <TodoSlip
+              key={item.key}
+              name={item.name}
+              difficulty={item.difficulty}
+              priority={item.priority}
+              notes={item.notes}
+            />
+          </div>
+        )}
+      </Draggable>
+    ))
 
   return (
     <div className='App'>
@@ -65,7 +66,6 @@ function App(): JSX.Element {
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
-                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...provided.droppableProps}
                 style={{
                   background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change background on drag over
