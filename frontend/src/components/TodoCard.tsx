@@ -1,20 +1,13 @@
 import * as React from 'react'
-import { useState } from 'react'
+// import { useState } from 'react'
 // import ReactDOMServer from 'react-dom/server'
 import '../App.css'
 // import { FC } from 'react'
-import {
-  Card,
-  CardContent,
-  Typography,
-  createTheme,
-  ThemeProvider,
-  ButtonBase,
-} from '@mui/material'
+import { Card, CardContent, Typography, createTheme, ThemeProvider } from '@mui/material'
 // import styled from '@emotion/styled'
 import '@fontsource/roboto'
 import { blueGrey, grey } from '@mui/material/colors'
-import { Variant } from '@mui/material/styles/createTypography'
+// import { Variant } from '@mui/material/styles/createTypography'
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
@@ -36,7 +29,7 @@ type TodoCardProps = {
 }
 
 function TodoCard(props: TodoCardProps): JSX.Element {
-  const [cardVariant, setCardVariant] = useState('cardNormal')
+  // const [cardVariant, setCardVariant] = useState('cardNormal')
 
   const theme = createTheme({
     palette: {
@@ -55,13 +48,16 @@ function TodoCard(props: TodoCardProps): JSX.Element {
     typography: {
       cardNormal: {
         textDecoration: 'none',
+        fontWeight: 500,
       },
       cardStrikethrough: {
         textDecoration: 'line-through',
+        fontWeight: 500,
       },
     },
   })
 
+  /*
   const onTodoCardClick = () => {
     if (cardVariant === 'cardNormal') {
       setCardVariant('cardStrikethrough')
@@ -69,22 +65,21 @@ function TodoCard(props: TodoCardProps): JSX.Element {
       setCardVariant('cardNormal')
     }
   }
+  */
 
   const { name, difficulty, priority, notes } = props
   return (
     <div className='todoCard'>
       <ThemeProvider theme={theme}>
         <Card raised>
-          <ButtonBase className='cardButton' component='span' onClick={onTodoCardClick}>
-            <CardContent>
-              <Typography gutterBottom variant={cardVariant as Variant} color='primary'>
-                {name} <br />
-                priority: {priority} <br />
-                difficulty (1-10): {difficulty} <br />
-                notes: {notes}
-              </Typography>
-            </CardContent>
-          </ButtonBase>
+          <CardContent>
+            <Typography gutterBottom variant='body1' color='primary'>
+              {name} <br />
+              priority: {priority} <br />
+              difficulty (1-10): {difficulty} <br />
+              notes: {notes}
+            </Typography>
+          </CardContent>
         </Card>
       </ThemeProvider>
     </div>

@@ -5,20 +5,19 @@
 .App {
 }
 
-.todoCardDiv {
+.todoCardsDiv {
   justify-content: 'space-between';
   display: 'flex';
+  width: fit-content;
+  padding: 10px;
 }
 
 .todoCard {
   padding: 8px;
-  width: 200px;
-  border: 1;
+  width: 12rem;
 }
 
 .cardButton {
   height: 100%;
   width: 100%;
-  text-decoration: 'line-through' !important;
-
 }

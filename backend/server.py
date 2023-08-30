@@ -37,13 +37,13 @@ todos = [
                 'name': 'run dishwasher',
                 'difficulty': 4,
                 'priority': 'medium',
-                'notes': ''
+                'notes': 'Use two of the dish wash pods'
             },
             {
                 'name': 'feed pets',
                 'difficulty': 2,
                 'priority': 'high',
-                'notes': ''
+                'notes': '-----------------------'
             }
         ]
 
