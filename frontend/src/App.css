@@ -1,23 +1,31 @@
-#body {
+body {
   height: 100%;
+  background-color: rgb(146, 140, 140);
 }
 
 .App {
+  display: flex;
 }
 
 .todoCardsDiv {
   justify-content: 'space-between';
-  display: 'flex';
-  width: fit-content;
   padding: 10px;
+  width: fit-content;
 }
 
 .todoCard {
-  padding: 8px;
   width: 12rem;
+  padding: 10px;
 }
 
 .cardButton {
   height: 100%;
   width: 100%;
+}
+
+.droppable {
+  padding: 7px;
+  border: 1px solid lightgrey;
+  min-height: 100px;
+  border-radius: 5px;
 }

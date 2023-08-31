@@ -32,11 +32,11 @@ function App(): JSX.Element {
 
   // update order of TodoSlips
   const onDragEnd = (result: DropResult) => {
+    // If the draggable move isn't canceled
     if (result.destination) {
       const reorderedItems = Array.from(todoSlipsArray)
       const [reorderedItem] = reorderedItems.splice(result.source.index, 1)
       reorderedItems.splice(result.destination.index, 0, reorderedItem)
-
       setTodoSlips(reorderedItems)
     }
   }
@@ -60,9 +60,26 @@ function App(): JSX.Element {
 
   return (
     <div className='App'>
-      <div className='todoCardsDiv'>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId='droppableId'>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className='todoCardsDiv'>
+          <Droppable droppableId='droppable-1'>
+            {(provided, snapshot) => (
+              <div
+                className='droppable'
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                style={{
+                  background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change background on drag over
+                }}
+              >
+                {todoSlipsComponents()}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
+        <div className='todoCardsDiv'>
+          <Droppable droppableId='droppable-2'>
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
@@ -72,15 +89,15 @@ function App(): JSX.Element {
                   padding: '16px',
                   border: '1px solid lightgrey',
                   minHeight: '100px', // Set a minimum height for the droppable area
+                  borderRadius: '5px',
                 }}
               >
-                {todoSlipsComponents()}
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
-        </DragDropContext>
-      </div>
+        </div>
+      </DragDropContext>
     </div>
   )
 }
