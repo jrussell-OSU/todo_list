@@ -3,6 +3,8 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+
+  // Extending commonly used configurations for React & TypeScript.
   extends: [
     'plugin:react/recommended',
     'airbnb-typescript-prettier',
@@ -10,17 +12,26 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
   ],
+
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: 'tsconfig.eslint.json',
-    // project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
   },
+
   plugins: ['react', '@typescript-eslint', 'react-hooks', 'autofix'],
+
   rules: {
+    // React & JSX
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+    'react/self-closing-comp': ['error', { component: true, html: true }],
+    'react/prop-types': 'off', // Prop types are not needed with TypeScript
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+
+    // Imports
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -29,17 +40,17 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'no-duplicate-imports': 'error',
+    'import/prefer-default-export': 'off',
+
+    '@typescript-eslint/no-shadow': ['error'],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-shadow': 'off',
     camelcase: 'error',
-    '@typescript-eslint/no-shadow': ['error'],
     'spaced-comment': 'error',
-    'no-duplicate-imports': 'error',
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    'import/prefer-default-export': 'off',
-    'react/prop-types': 'off',
     'arrow-body-style': ['error', 'as-needed'],
-    'react/self-closing-comp': ['error', { component: true, html: true }],
+
+    // Autofix
     'autofix/no-unused-vars': [
       'error',
       {
@@ -49,7 +60,11 @@ module.exports = {
       },
     ],
   },
+
   settings: {
+    react: {
+      version: 'detect', // Detects the installed React version
+    },
     'import/resolver': {
       typescript: {},
     },

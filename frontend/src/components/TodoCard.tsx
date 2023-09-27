@@ -1,13 +1,8 @@
 import * as React from 'react'
-// import { useState } from 'react'
-// import ReactDOMServer from 'react-dom/server'
 import '../App.css'
-// import { FC } from 'react'
 import { Card, CardContent, Typography, createTheme, ThemeProvider } from '@mui/material'
-// import styled from '@emotion/styled'
 import '@fontsource/roboto'
 import { blueGrey, grey } from '@mui/material/colors'
-// import { Variant } from '@mui/material/styles/createTypography'
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {

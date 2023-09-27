@@ -15,13 +15,14 @@ function App(): JSX.Element {
     notes: string
   }
 
-  const [todoSlipsArray, setTodoSlips] = useState<Array<TodoSlip>>([])
+  const [incompleteItems, setIncompleteItems] = useState<Array<TodoSlip>>([])
+  const [completeItems, setCompleteItems] = useState<Array<TodoSlip>>([])
 
   useEffect(() => {
     fetch('/data')
       .then(async (res) => {
         await res.json().then((newData: TodoSlip[]): void => {
-          setTodoSlips(newData)
+          setIncompleteItems(newData)
         })
       })
       .catch((error: string) => {
@@ -32,17 +33,63 @@ function App(): JSX.Element {
 
   // update order of TodoSlips
   const onDragEnd = (result: DropResult) => {
-    // If the draggable move isn't canceled
-    if (result.destination) {
-      const reorderedItems = Array.from(todoSlipsArray)
-      const [reorderedItem] = reorderedItems.splice(result.source.index, 1)
-      reorderedItems.splice(result.destination.index, 0, reorderedItem)
-      setTodoSlips(reorderedItems)
+    const { source, destination } = result
+
+    if (!destination) return
+
+    // If moving a card around in the same column
+    if (source.droppableId === destination.droppableId) {
+      const items = Array.from(
+        source.droppableId === 'incomplete-column' ? incompleteItems : completeItems,
+      )
+      const [reorderedItem] = items.splice(source.index, 1)
+      items.splice(destination.index, 0, reorderedItem)
+
+      if (source.droppableId === 'incomplete-column') {
+        setIncompleteItems(items)
+      } else {
+        setCompleteItems(items)
+      }
+    } else {
+      // If moving a card between columns
+      const sourceItems = Array.from(
+        source.droppableId === 'incomplete-column' ? incompleteItems : completeItems,
+      )
+      const destItems = Array.from(
+        destination.droppableId === 'incomplete-column' ? incompleteItems : completeItems,
+      )
+      const [movedItem] = sourceItems.splice(source.index, 1)
+      destItems.splice(destination.index, 0, movedItem)
+
+      if (source.droppableId === 'incomplete-column') {
+        setIncompleteItems(sourceItems)
+        setCompleteItems(destItems)
+      } else {
+        setIncompleteItems(destItems)
+        setCompleteItems(sourceItems)
+      }
     }
   }
 
-  const todoSlipsComponents = (): JSX.Element[] =>
-    todoSlipsArray.map((item, index: number) => (
+  const incompleteTodoSlipsComponents = (): JSX.Element[] =>
+    incompleteItems.map((item, index: number) => (
+      <Draggable key={item.key} draggableId={item.key} index={index}>
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <TodoSlip
+              key={item.key}
+              name={item.name}
+              difficulty={item.difficulty}
+              priority={item.priority}
+              notes={item.notes}
+            />
+          </div>
+        )}
+      </Draggable>
+    ))
+
+  const completeTodoSlipsComponents = (): JSX.Element[] =>
+    completeItems.map((item, index: number) => (
       <Draggable key={item.key} draggableId={item.key} index={index}>
         {(provided) => (
           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
@@ -62,7 +109,7 @@ function App(): JSX.Element {
     <div className='App'>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className='todoCardsDiv'>
-          <Droppable droppableId='droppable-1'>
+          <Droppable droppableId='incomplete-column'>
             {(provided, snapshot) => (
               <div
                 className='droppable'
@@ -72,26 +119,27 @@ function App(): JSX.Element {
                   background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change background on drag over
                 }}
               >
-                {todoSlipsComponents()}
+                {incompleteTodoSlipsComponents()}
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
         </div>
         <div className='todoCardsDiv'>
-          <Droppable droppableId='droppable-2'>
+          <Droppable droppableId='complete-column'>
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 style={{
-                  background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change background on drag over
+                  background: snapshot.isDraggingOver ? 'lightblue' : 'white',
                   padding: '16px',
                   border: '1px solid lightgrey',
-                  minHeight: '100px', // Set a minimum height for the droppable area
+                  minHeight: '100px',
                   borderRadius: '5px',
                 }}
               >
+                {completeTodoSlipsComponents()}
                 {provided.placeholder}
               </div>
             )}
