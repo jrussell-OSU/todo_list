@@ -6,30 +6,26 @@ import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautif
 import TodoSlip from './components/TodoCard'
 import '@fontsource/roboto'
 
-function App(): JSX.Element {
-  interface TodoSlip {
-    key: string
-    name: string
-    difficulty: number
-    priority: string
-    notes: string
-  }
+interface TodoSlip {
+  key: string
+  name: string
+  difficulty: number
+  priority: string
+  notes: string
+}
 
+function App(): JSX.Element {
   const [incompleteItems, setIncompleteItems] = useState<Array<TodoSlip>>([])
   const [completeItems, setCompleteItems] = useState<Array<TodoSlip>>([])
 
-  useEffect(() => {
+  const loadTodoData = () => {
     fetch('/data')
-      .then(async (res) => {
-        await res.json().then((newData: TodoSlip[]): void => {
-          setIncompleteItems(newData)
-        })
-      })
-      .catch((error: string) => {
-        // eslint-disable-next-line no-console
-        console.error(`Error fetching '/': ${error}`)
-      })
-  }, [])
+      .then((res) => res.json())
+      .then(setIncompleteItems)
+      .catch(() => console.error(`Error fetching '/':`))
+  }
+
+  useEffect(loadTodoData, [])
 
   // update order of TodoSlips
   const onDragEnd = (result: DropResult) => {
@@ -117,6 +113,10 @@ function App(): JSX.Element {
                 {...provided.droppableProps}
                 style={{
                   background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change background on drag over
+                  padding: '16px',
+                  border: '1px solid lightgrey',
+                  minHeight: '100px',
+                  borderRadius: '5px',
                 }}
               >
                 {incompleteTodoSlipsComponents()}
@@ -129,6 +129,7 @@ function App(): JSX.Element {
           <Droppable droppableId='complete-column'>
             {(provided, snapshot) => (
               <div
+                className='droppable'
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 style={{
