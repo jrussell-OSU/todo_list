@@ -1,7 +1,5 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import './App.css'
-import * as React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd'
 import TodoSlip from './components/TodoCard'
 import '@fontsource/roboto'
@@ -22,7 +20,7 @@ function App(): JSX.Element {
     fetch('/data')
       .then((res) => res.json())
       .then(setIncompleteItems)
-      .catch(() => console.error(`Error fetching '/':`))
+      .catch((error: string) => console.error(`Error fetching '/': ${error}`))
   }
 
   useEffect(loadTodoData, [])
@@ -36,12 +34,12 @@ function App(): JSX.Element {
     // If moving a card around in the same column
     if (source.droppableId === destination.droppableId) {
       const items = Array.from(
-        source.droppableId === 'incomplete-column' ? incompleteItems : completeItems,
+        source.droppableId === 'incomplete' ? incompleteItems : completeItems,
       )
       const [reorderedItem] = items.splice(source.index, 1)
       items.splice(destination.index, 0, reorderedItem)
 
-      if (source.droppableId === 'incomplete-column') {
+      if (source.droppableId === 'incomplete') {
         setIncompleteItems(items)
       } else {
         setCompleteItems(items)
@@ -49,15 +47,15 @@ function App(): JSX.Element {
     } else {
       // If moving a card between columns
       const sourceItems = Array.from(
-        source.droppableId === 'incomplete-column' ? incompleteItems : completeItems,
+        source.droppableId === 'incomplete' ? incompleteItems : completeItems,
       )
       const destItems = Array.from(
-        destination.droppableId === 'incomplete-column' ? incompleteItems : completeItems,
+        destination.droppableId === 'incomplete' ? incompleteItems : completeItems,
       )
       const [movedItem] = sourceItems.splice(source.index, 1)
       destItems.splice(destination.index, 0, movedItem)
 
-      if (source.droppableId === 'incomplete-column') {
+      if (source.droppableId === 'incomplete') {
         setIncompleteItems(sourceItems)
         setCompleteItems(destItems)
       } else {
@@ -67,10 +65,11 @@ function App(): JSX.Element {
     }
   }
 
-  const incompleteTodoSlipsComponents = (): JSX.Element[] =>
-    incompleteItems.map((item, index: number) => (
+  const todoSlipsComponents = (todoItems: TodoSlip[]): JSX.Element[] =>
+    todoItems.map((item, index: number) => (
       <Draggable key={item.key} draggableId={item.key} index={index}>
         {(provided) => (
+          /* eslint-disable-next-line react/jsx-props-no-spreading */
           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
             <TodoSlip
               key={item.key}
@@ -84,68 +83,36 @@ function App(): JSX.Element {
       </Draggable>
     ))
 
-  const completeTodoSlipsComponents = (): JSX.Element[] =>
-    completeItems.map((item, index: number) => (
-      <Draggable key={item.key} draggableId={item.key} index={index}>
-        {(provided) => (
-          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-            <TodoSlip
-              key={item.key}
-              name={item.name}
-              difficulty={item.difficulty}
-              priority={item.priority}
-              notes={item.notes}
-            />
+  const renderDroppableColumnAndItems = (columnId: string, items: TodoSlip[]) => (
+    <div className='todoCardsDiv'>
+      <Droppable droppableId={columnId}>
+        {(provided, snapshot) => (
+          <div
+            className='droppable'
+            ref={provided.innerRef}
+            /* eslint-disable-next-line react/jsx-props-no-spreading */
+            {...provided.droppableProps}
+            style={{
+              background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change background on drag over
+              padding: '16px',
+              border: '1px solid lightgrey',
+              minHeight: '100px',
+              borderRadius: '5px',
+            }}
+          >
+            {todoSlipsComponents(items)}
+            {provided.placeholder}
           </div>
         )}
-      </Draggable>
-    ))
+      </Droppable>
+    </div>
+  )
 
   return (
     <div className='App'>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className='todoCardsDiv'>
-          <Droppable droppableId='incomplete-column'>
-            {(provided, snapshot) => (
-              <div
-                className='droppable'
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change background on drag over
-                  padding: '16px',
-                  border: '1px solid lightgrey',
-                  minHeight: '100px',
-                  borderRadius: '5px',
-                }}
-              >
-                {incompleteTodoSlipsComponents()}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </div>
-        <div className='todoCardsDiv'>
-          <Droppable droppableId='complete-column'>
-            {(provided, snapshot) => (
-              <div
-                className='droppable'
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  background: snapshot.isDraggingOver ? 'lightblue' : 'white',
-                  padding: '16px',
-                  border: '1px solid lightgrey',
-                  minHeight: '100px',
-                  borderRadius: '5px',
-                }}
-              >
-                {completeTodoSlipsComponents()}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </div>
+        {renderDroppableColumnAndItems('incomplete', incompleteItems)}
+        {renderDroppableColumnAndItems('complete', completeItems)}
       </DragDropContext>
     </div>
   )
