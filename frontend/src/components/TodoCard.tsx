@@ -1,30 +1,24 @@
 import * as React from 'react'
-import '../App.css'
 import { Card, CardContent, Typography, createTheme, ThemeProvider } from '@mui/material'
+import '../App.css'
 import '@fontsource/roboto'
 import { blueGrey, grey } from '@mui/material/colors'
+import { TodoSlipProps } from '../types/types'
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
-    cardNormal: React.CSSProperties
-    cardStrikethrough: React.CSSProperties
+    slipNormal: React.CSSProperties
+    slipStrikethrough: React.CSSProperties
   }
 
   interface TypographyVariantsOptions {
-    cardNormal: React.CSSProperties
-    cardStrikethrough?: React.CSSProperties
+    slipNormal: React.CSSProperties
+    slipStrikethrough?: React.CSSProperties
   }
 }
 
-type TodoCardProps = {
-  name: string
-  difficulty: number
-  priority: string
-  notes: string
-}
-
-function TodoCard(props: TodoCardProps): JSX.Element {
-  // const [cardVariant, setCardVariant] = useState('cardNormal')
+function TodoSlip(props: TodoSlipProps): JSX.Element {
+  // const [slipVariant, setSlipVariant] = useState('slipNormal')
 
   const theme = createTheme({
     palette: {
@@ -41,11 +35,11 @@ function TodoCard(props: TodoCardProps): JSX.Element {
       },
     },
     typography: {
-      cardNormal: {
+      slipNormal: {
         textDecoration: 'none',
         fontWeight: 500,
       },
-      cardStrikethrough: {
+      slipStrikethrough: {
         textDecoration: 'line-through',
         fontWeight: 500,
       },
@@ -53,18 +47,18 @@ function TodoCard(props: TodoCardProps): JSX.Element {
   })
 
   /*
-  const onTodoCardClick = () => {
-    if (cardVariant === 'cardNormal') {
-      setCardVariant('cardStrikethrough')
+  const onTodoSlipClick = () => {
+    if (slipVariant === 'slipNormal') {
+      setSlipVariant('slipStrikethrough')
     } else {
-      setCardVariant('cardNormal')
+      setSlipVariant('slipNormal')
     }
   }
   */
 
   const { name, difficulty, priority, notes } = props
   return (
-    <div className='todoCard'>
+    <div className='todoSlip'>
       <ThemeProvider theme={theme}>
         <Card raised>
           <CardContent>
@@ -81,4 +75,4 @@ function TodoCard(props: TodoCardProps): JSX.Element {
   )
 }
 
-export default TodoCard
+export default TodoSlip

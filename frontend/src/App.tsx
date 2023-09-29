@@ -36,9 +36,9 @@ function App(): JSX.Element {
       const reorderedItems = reorderSameColumn(
         source,
         destination,
-        source.droppableId === 'incomplete' ? incompleteItems : completeItems,
+        source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
       )
-      if (source.droppableId === 'incomplete') {
+      if (source.droppableId === 'Incomplete') {
         setIncompleteItems(reorderedItems)
       } else {
         setCompleteItems(reorderedItems)
@@ -48,10 +48,10 @@ function App(): JSX.Element {
       const [reorderedSourceItems, reorderedDestItems] = reorderDiffColumn(
         source,
         destination,
-        source.droppableId === 'incomplete' ? incompleteItems : completeItems,
-        destination.droppableId === 'incomplete' ? incompleteItems : completeItems,
+        source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
+        destination.droppableId === 'Incomplete' ? incompleteItems : completeItems,
       )
-      if (source.droppableId === 'incomplete') {
+      if (source.droppableId === 'Incomplete') {
         setIncompleteItems(reorderedSourceItems)
         setCompleteItems(reorderedDestItems)
       } else {
@@ -63,12 +63,12 @@ function App(): JSX.Element {
 
   const todoSlipsComponents = (todoItems: TodoSlipProps[]): JSX.Element[] =>
     todoItems.map((item, index: number) => (
-      <Draggable key={item.key} draggableId={item.key} index={index}>
+      <Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided) => (
           /* eslint-disable-next-line react/jsx-props-no-spreading */
           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
             <TodoSlip
-              key={item.key}
+              id={item.id}
               name={item.name}
               difficulty={item.difficulty}
               priority={item.priority}
@@ -96,6 +96,7 @@ function App(): JSX.Element {
               borderRadius: '5px',
             }}
           >
+            <div className='droppable-header'>{columnId} Tasks</div>
             {todoSlipsComponents(items)}
             {provided.placeholder}
           </div>
@@ -107,8 +108,8 @@ function App(): JSX.Element {
   return (
     <div className='App'>
       <DragDropContext onDragEnd={onDragEnd}>
-        {renderColumns('incomplete', incompleteItems)}
-        {renderColumns('complete', completeItems)}
+        {renderColumns('Incomplete', incompleteItems)}
+        {renderColumns('Complete', completeItems)}
       </DragDropContext>
     </div>
   )

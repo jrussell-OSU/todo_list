@@ -18,7 +18,6 @@ export const reorderDiffColumn = (
   sourceItems: TodoSlipProps[],
   destItems: TodoSlipProps[],
 ) => {
-  // If moving a card between columns
   const reorderedSourceItems = Array.from(sourceItems)
   const reorderedDestItems = Array.from(destItems)
   const [movedItem] = reorderedSourceItems.splice(source.index, 1)

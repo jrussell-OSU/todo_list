@@ -1,5 +1,5 @@
 export interface TodoSlipProps {
-  key: string
+  id: string
   name: string
   difficulty: number
   priority: string

@@ -18,9 +18,5 @@
     "rootDir": "./src",
     "noImplicitThis": false
   },
-  "include": [
-    "src",
-    "components",
-    "./",
-  ]
+  "include": ["src/**/*"]
 }

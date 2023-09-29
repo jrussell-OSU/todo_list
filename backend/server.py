@@ -28,21 +28,21 @@ def print_users_and_todos():
 
 todos = [
             {
-                'key': uuid4().hex,
+                'id': uuid4().hex,
                 'name': 'walk the dogs',
                 'difficulty': 8,
                 'priority': 'high',
                 'notes': 'Practice loose leash training'
             },
             {
-                'key': uuid4().hex,
+                'id': uuid4().hex,
                 'name': 'run dishwasher',
                 'difficulty': 4,
                 'priority': 'medium',
                 'notes': 'Use two of the dish wash pods'
             },
             {
-                'key': uuid4().hex,
+                'id': uuid4().hex,
                 'name': 'feed pets',
                 'difficulty': 2,
                 'priority': 'high',
@@ -51,6 +51,7 @@ todos = [
         ]
 
 print(todos)
+
 
 @app.route('/data')
 def get_todos():
