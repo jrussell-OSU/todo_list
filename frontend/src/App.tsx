@@ -79,7 +79,7 @@ function App(): JSX.Element {
       </Draggable>
     ))
 
-  const renderDroppableColumnAndItems = (columnId: string, items: TodoSlipProps[]) => (
+  const renderColumns = (columnId: string, items: TodoSlipProps[]) => (
     <div className='todoCardsDiv'>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
@@ -107,8 +107,8 @@ function App(): JSX.Element {
   return (
     <div className='App'>
       <DragDropContext onDragEnd={onDragEnd}>
-        {renderDroppableColumnAndItems('incomplete', incompleteItems)}
-        {renderDroppableColumnAndItems('complete', completeItems)}
+        {renderColumns('incomplete', incompleteItems)}
+        {renderColumns('complete', completeItems)}
       </DragDropContext>
     </div>
   )
