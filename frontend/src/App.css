@@ -33,4 +33,5 @@ body {
 .droppable-header {
   font-size: 1.5em;
   text-align: center;
+  min-width: 8.85em;
 }

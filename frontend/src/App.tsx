@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import './App.css'
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd'
 import TodoSlip from './components/TodoCard'
+import AddTodoCard from './components/AddTodoCard'
 import '@fontsource/roboto'
 import { TodoSlipProps } from './types/types'
 import { fetchTodoData } from './utils/fetchData'
@@ -21,7 +23,6 @@ function App(): JSX.Element {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     loadTodoData()
   }, [])
 
@@ -89,7 +90,7 @@ function App(): JSX.Element {
             /* eslint-disable-next-line react/jsx-props-no-spreading */
             {...provided.droppableProps}
             style={{
-              background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change background on drag over
+              background: snapshot.isDraggingOver ? 'lightblue' : 'white', // Change column background on todoSlip drag
               padding: '16px',
               border: '1px solid lightgrey',
               minHeight: '100px',
@@ -111,6 +112,7 @@ function App(): JSX.Element {
         {renderColumns('Incomplete', incompleteItems)}
         {renderColumns('Complete', completeItems)}
       </DragDropContext>
+      <AddTodoCard />
     </div>
   )
 }

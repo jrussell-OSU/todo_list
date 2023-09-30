@@ -1,6 +1,6 @@
 import { TodoSlipProps } from '../types/types'
 
-const ENDPOINT = '/data'
+const ENDPOINT = 'todos'
 
 export const fetchTodoData = async (): Promise<TodoSlipProps[]> => {
   try {
