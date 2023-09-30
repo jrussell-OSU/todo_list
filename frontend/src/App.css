@@ -18,6 +18,10 @@ body {
   padding: 10px;
 }
 
+.addTodoSlip {
+  padding: 10px;
+}
+
 .cardButton {
   height: 100%;
   width: 100%;

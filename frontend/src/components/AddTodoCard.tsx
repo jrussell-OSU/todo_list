@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Card, CardContent } from '@mui/material'
 import '../App.css'
 import '@fontsource/roboto'
 import { TodoSlipProps } from '../types/types'
@@ -63,44 +63,48 @@ function AddTodoSlip(): JSX.Element {
 
   return (
     <div className='addTodoSlip'>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label='Name'
-          name='name'
-          value={formData.name}
-          onChange={handleChange}
-          margin='normal'
-          fullWidth
-        />
-        <TextField
-          label='Difficulty'
-          name='difficulty'
-          type='number'
-          value={formData.difficulty}
-          onChange={handleChange}
-          margin='normal'
-          fullWidth
-        />
-        <TextField
-          label='Priority'
-          name='priority'
-          value={formData.priority}
-          onChange={handleChange}
-          margin='normal'
-          fullWidth
-        />
-        <TextField
-          label='Notes'
-          name='notes'
-          value={formData.notes}
-          onChange={handleChange}
-          margin='normal'
-          fullWidth
-        />
-        <Button type='submit' variant='contained' color='primary' style={{ marginTop: '1rem' }}>
-          Add Todo
-        </Button>
-      </form>
+      <Card raised>
+        <CardContent>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label='Name'
+              name='name'
+              value={formData.name}
+              onChange={handleChange}
+              margin='normal'
+              fullWidth
+            />
+            <TextField
+              label='Difficulty'
+              name='difficulty'
+              type='number'
+              value={formData.difficulty}
+              onChange={handleChange}
+              margin='normal'
+              fullWidth
+            />
+            <TextField
+              label='Priority'
+              name='priority'
+              value={formData.priority}
+              onChange={handleChange}
+              margin='normal'
+              fullWidth
+            />
+            <TextField
+              label='Notes'
+              name='notes'
+              value={formData.notes}
+              onChange={handleChange}
+              margin='normal'
+              fullWidth
+            />
+            <Button type='submit' variant='contained' color='primary' style={{ marginTop: '1rem' }}>
+              Add Todo
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   )
 }
