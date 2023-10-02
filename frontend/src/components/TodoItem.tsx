@@ -58,7 +58,7 @@ function TodoSlip(props: TodoSlipProps): JSX.Element {
 
   const { name, difficulty, priority, notes } = props
   return (
-    <div className='todoSlip'>
+    <div className='todoItem'>
       <ThemeProvider theme={theme}>
         <Card raised>
           <CardContent>

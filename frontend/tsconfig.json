@@ -18,5 +18,5 @@
     "rootDir": "./src",
     "noImplicitThis": false
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "jest.config.js"]
 }

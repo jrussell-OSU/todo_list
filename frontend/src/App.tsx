@@ -2,20 +2,20 @@
 import './App.css'
 import React, { useEffect, useState } from 'react'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd'
-import TodoSlip from './components/TodoCard'
-import AddTodoCard from './components/AddTodoCard'
+import TodoSlip from './components/TodoItem'
+import AddTodoCard from './components/AddTodoItemForm'
 import '@fontsource/roboto'
-import { TodoSlipProps } from './types/types'
+import { TodoSlipProps as TodoItemProps } from './types/types'
 import { fetchTodoData } from './utils/fetchData'
 import { reorderSameColumn, reorderDiffColumn } from './utils/reorderUtils'
 
 function App(): JSX.Element {
-  const [incompleteItems, setIncompleteItems] = useState<Array<TodoSlipProps>>([])
-  const [completeItems, setCompleteItems] = useState<Array<TodoSlipProps>>([])
+  const [incompleteItems, setIncompleteItems] = useState<Array<TodoItemProps>>([])
+  const [completeItems, setCompleteItems] = useState<Array<TodoItemProps>>([])
 
   const loadTodoData = async () => {
     try {
-      const data = (await fetchTodoData()) as TodoSlipProps[] | []
+      const data = (await fetchTodoData()) as TodoItemProps[] | []
       setIncompleteItems(data)
     } catch (error) {
       console.error(`Error fetching data: ${String(error)}`)
@@ -26,13 +26,13 @@ function App(): JSX.Element {
     loadTodoData()
   }, [])
 
-  // update order of TodoSlips
+  // update order of TodoItems
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result
 
     if (!destination) return
 
-    // If moving a todoSlip around in the same column
+    // If moving a TodoItem around in the same column
     if (source.droppableId === destination.droppableId) {
       const reorderedItems = reorderSameColumn(
         source,
@@ -62,7 +62,7 @@ function App(): JSX.Element {
     }
   }
 
-  const todoSlipsComponents = (todoItems: TodoSlipProps[]): JSX.Element[] =>
+  const todoSlipsComponents = (todoItems: TodoItemProps[]): JSX.Element[] =>
     todoItems.map((item, index: number) => (
       <Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided) => (
@@ -80,8 +80,8 @@ function App(): JSX.Element {
       </Draggable>
     ))
 
-  const renderColumns = (columnId: string, items: TodoSlipProps[]) => (
-    <div className='todoCardsDiv'>
+  const renderColumns = (columnId: string, items: TodoItemProps[]) => (
+    <div className='todoItemsDiv'>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
           <div

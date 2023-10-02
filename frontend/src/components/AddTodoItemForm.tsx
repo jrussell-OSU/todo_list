@@ -3,6 +3,7 @@ import { TextField, Button, Card, CardContent } from '@mui/material'
 import '../App.css'
 import '@fontsource/roboto'
 import { TodoSlipProps } from '../types/types'
+import { createTodo } from '../utils/todoServices'
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
@@ -16,25 +17,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-async function createTodo(todo: TodoSlipProps) {
-  try {
-    const response = await fetch('/todos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(todo),
-    })
-
-    if (!response.ok) {
-      throw new Error(`Error posting new todo slip: ${response.status}: ${response.statusText}`)
-    }
-  } catch (error) {
-    console.error('There was a problem posting the todo:', error)
-  }
-}
-
-function AddTodoSlip(): JSX.Element {
+function AddTodoItemForm(): JSX.Element {
   const [formData, setFormData] = React.useState<TodoSlipProps>({
     id: '',
     name: '',
@@ -62,7 +45,7 @@ function AddTodoSlip(): JSX.Element {
   }
 
   return (
-    <div className='addTodoSlip'>
+    <div className='addTodoItemForm'>
       <Card raised>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -100,7 +83,7 @@ function AddTodoSlip(): JSX.Element {
               fullWidth
             />
             <Button type='submit' variant='contained' color='primary' style={{ marginTop: '1rem' }}>
-              Add Todo
+              New ToDo
             </Button>
           </form>
         </CardContent>
@@ -109,4 +92,4 @@ function AddTodoSlip(): JSX.Element {
   )
 }
 
-export default AddTodoSlip
+export default AddTodoItemForm
