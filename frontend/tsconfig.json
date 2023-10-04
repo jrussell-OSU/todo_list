@@ -19,5 +19,6 @@
     "noImplicitThis": false,
     "noImplicitReturns": true
   },
-  "include": ["src/**/*", "jest.config.js"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

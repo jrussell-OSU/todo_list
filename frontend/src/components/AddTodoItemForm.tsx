@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { TextField, Button, Card, CardContent } from '@mui/material'
-import '../App.css'
-import '@fontsource/roboto'
-import { TodoSlipProps } from '../types/types'
-import { createTodo } from '../utils/todoServices'
+import * as React from 'react';
+import { TextField, Button, Card, CardContent } from '@mui/material';
+import '../App.css';
+import '@fontsource/roboto';
+import { TodoSlipProps } from '../types/types';
+import { createTodo } from '../utils/todoServices';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
-    slipNormal: React.CSSProperties
-    slipStrikethrough: React.CSSProperties
+    slipNormal: React.CSSProperties;
+    slipStrikethrough: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
-    slipNormal: React.CSSProperties
-    slipStrikethrough?: React.CSSProperties
+    slipNormal: React.CSSProperties;
+    slipStrikethrough?: React.CSSProperties;
   }
 }
 
@@ -25,24 +25,24 @@ function AddTodoItemForm(): JSX.Element {
     priority: 'low',
     notes: '',
     // You can add other default values here
-  })
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     const submitData = async () => {
-      await createTodo(formData)
-    }
+      await createTodo(formData);
+    };
     // eslint-disable-next-line no-void
-    void submitData()
-  }
+    void submitData();
+  };
 
   return (
     <div className='addTodoItemForm'>
@@ -89,7 +89,7 @@ function AddTodoItemForm(): JSX.Element {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
-export default AddTodoItemForm
+export default AddTodoItemForm;

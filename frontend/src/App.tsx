@@ -1,36 +1,36 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import './App.css'
-import React, { useEffect, useState } from 'react'
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd'
-import TodoSlip from './components/TodoItem'
-import AddTodoCard from './components/AddTodoItemForm'
-import '@fontsource/roboto'
-import { TodoSlipProps as TodoItemProps } from './types/types'
-import { fetchTodoData } from './utils/fetchData'
-import { reorderSameColumn, reorderBetweenColumns } from './utils/reorderUtils'
+import './App.css';
+import React, { useEffect, useState } from 'react';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import TodoSlip from './components/TodoItem';
+import AddTodoCard from './components/AddTodoItemForm';
+import '@fontsource/roboto';
+import { TodoSlipProps as TodoItemProps } from './types/types';
+import { fetchTodoData } from './utils/fetchData';
+import { reorderSameColumn, reorderBetweenColumns } from './utils/reorderUtils';
 
 function App(): JSX.Element {
-  const [incompleteItems, setIncompleteItems] = useState<Array<TodoItemProps>>([])
-  const [completeItems, setCompleteItems] = useState<Array<TodoItemProps>>([])
+  const [incompleteItems, setIncompleteItems] = useState<Array<TodoItemProps>>([]);
+  const [completeItems, setCompleteItems] = useState<Array<TodoItemProps>>([]);
 
   const loadTodoData = async () => {
     try {
-      const data = (await fetchTodoData()) as TodoItemProps[] | []
-      setIncompleteItems(data)
+      const data = (await fetchTodoData()) as TodoItemProps[] | [];
+      setIncompleteItems(data);
     } catch (error) {
-      console.error(`Error fetching data: ${String(error)}`)
+      console.error(`Error fetching data: ${String(error)}`);
     }
-  }
+  };
 
   useEffect(() => {
-    loadTodoData()
-  }, [])
+    loadTodoData();
+  }, []);
 
   // update order of TodoItems
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result
+    const { source, destination } = result;
 
-    if (!destination) return
+    if (!destination) return;
 
     // If moving a TodoItem around in the same column
     if (source.droppableId === destination.droppableId) {
@@ -38,7 +38,7 @@ function App(): JSX.Element {
         source,
         destination,
         source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
-      )
+      );
       if (source.droppableId === 'Incomplete') {
         setIncompleteItems(reorderedItems);
       } else {
@@ -51,16 +51,16 @@ function App(): JSX.Element {
         destination,
         source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
         destination.droppableId === 'Incomplete' ? incompleteItems : completeItems,
-      )
+      );
       if (source.droppableId === 'Incomplete') {
-        setIncompleteItems(reorderedSourceItems)
-        setCompleteItems(reorderedDestItems)
+        setIncompleteItems(reorderedSourceItems);
+        setCompleteItems(reorderedDestItems);
       } else {
-        setIncompleteItems(reorderedDestItems)
-        setCompleteItems(reorderedSourceItems)
+        setIncompleteItems(reorderedDestItems);
+        setCompleteItems(reorderedSourceItems);
       }
     }
-  }
+  };
 
   const todoSlipsComponents = (todoItems: TodoItemProps[]): JSX.Element[] =>
     todoItems.map((item, index: number) => (
@@ -78,7 +78,7 @@ function App(): JSX.Element {
           </div>
         )}
       </Draggable>
-    ))
+    ));
 
   const renderColumns = (columnId: string, items: TodoItemProps[]) => (
     <div className='todoItemsDiv'>
@@ -104,7 +104,7 @@ function App(): JSX.Element {
         )}
       </Droppable>
     </div>
-  )
+  );
 
   return (
     <div className='App'>
@@ -114,7 +114,7 @@ function App(): JSX.Element {
       </DragDropContext>
       <AddTodoCard />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

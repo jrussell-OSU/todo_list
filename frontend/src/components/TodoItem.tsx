@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { Card, CardContent, Typography, createTheme, ThemeProvider } from '@mui/material'
-import '../App.css'
-import '@fontsource/roboto'
-import { blueGrey, grey } from '@mui/material/colors'
-import { TodoSlipProps } from '../types/types'
+import * as React from 'react';
+import { Card, CardContent, Typography, createTheme, ThemeProvider } from '@mui/material';
+import '../App.css';
+import '@fontsource/roboto';
+import { blueGrey, grey } from '@mui/material/colors';
+import { TodoSlipProps } from '../types/types';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
-    slipNormal: React.CSSProperties
-    slipStrikethrough: React.CSSProperties
+    slipNormal: React.CSSProperties;
+    slipStrikethrough: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
-    slipNormal: React.CSSProperties
-    slipStrikethrough?: React.CSSProperties
+    slipNormal: React.CSSProperties;
+    slipStrikethrough?: React.CSSProperties;
   }
 }
 
@@ -44,7 +44,7 @@ function TodoSlip(props: TodoSlipProps): JSX.Element {
         fontWeight: 500,
       },
     },
-  })
+  });
 
   /*
   const onTodoSlipClick = () => {
@@ -56,7 +56,7 @@ function TodoSlip(props: TodoSlipProps): JSX.Element {
   }
   */
 
-  const { name, difficulty, priority, notes } = props
+  const { name, difficulty, priority, notes } = props;
   return (
     <div className='todoItem'>
       <ThemeProvider theme={theme}>
@@ -72,7 +72,7 @@ function TodoSlip(props: TodoSlipProps): JSX.Element {
         </Card>
       </ThemeProvider>
     </div>
-  )
+  );
 }
 
-export default TodoSlip
+export default TodoSlip;
