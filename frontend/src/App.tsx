@@ -40,9 +40,9 @@ function App(): JSX.Element {
         source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
       )
       if (source.droppableId === 'Incomplete') {
-        setIncompleteItems(reorderedItems)
+        setIncompleteItems(reorderedItems);
       } else {
-        setCompleteItems(reorderedItems)
+        setCompleteItems(reorderedItems);
       }
     } else {
       // If moving between columns
