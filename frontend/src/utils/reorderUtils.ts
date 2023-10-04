@@ -6,15 +6,13 @@ export const reorderSameColumn = (
   destination: DraggableLocation,
   items: TodoSlipProps[],
 ) => {
-  // eslint-disable-next-line no-console
-  console.log(`source location: ${typeof source} ${JSON.stringify(source, null, 4)}`)
   const reorderedItems = Array.from(items)
   const [reorderedItem] = reorderedItems.splice(source.index, 1)
   reorderedItems.splice(destination.index, 0, reorderedItem)
   return reorderedItems
 }
 
-export const reorderDiffColumn = (
+export const reorderBetweenColumns = (
   source: DraggableLocation,
   destination: DraggableLocation,
   sourceItems: TodoSlipProps[],

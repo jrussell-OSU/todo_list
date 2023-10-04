@@ -7,7 +7,7 @@ import AddTodoCard from './components/AddTodoItemForm'
 import '@fontsource/roboto'
 import { TodoSlipProps as TodoItemProps } from './types/types'
 import { fetchTodoData } from './utils/fetchData'
-import { reorderSameColumn, reorderDiffColumn } from './utils/reorderUtils'
+import { reorderSameColumn, reorderBetweenColumns } from './utils/reorderUtils'
 
 function App(): JSX.Element {
   const [incompleteItems, setIncompleteItems] = useState<Array<TodoItemProps>>([])
@@ -46,7 +46,7 @@ function App(): JSX.Element {
       }
     } else {
       // If moving between columns
-      const [reorderedSourceItems, reorderedDestItems] = reorderDiffColumn(
+      const [reorderedSourceItems, reorderedDestItems] = reorderBetweenColumns(
         source,
         destination,
         source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
