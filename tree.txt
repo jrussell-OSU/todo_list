@@ -1,0 +1,76 @@
+.
+├── app.yaml
+├── backend
+│   ├── config.json
+│   └── server.py
+├── frontend
+│   ├── build
+│   ├── jest.config.js
+│   ├── node_modules
+│   ├── package.json
+│   ├── public
+│   ├── README.md
+│   ├── src
+│   ├── tsconfig.eslint.json
+│   ├── tsconfig.json
+│   └── yarn.lock
+├── node_modules
+│   ├── ansi-styles
+│   ├── @babel
+│   ├── braces
+│   ├── bs-logger
+│   ├── chalk
+│   ├── ci-info
+│   ├── color-convert
+│   ├── color-name
+│   ├── diff-sequences
+│   ├── escape-string-regexp
+│   ├── eslint-config-prettier
+│   ├── expect
+│   ├── fast-json-stable-stringify
+│   ├── fill-range
+│   ├── @fontsource
+│   ├── graceful-fs
+│   ├── has-flag
+│   ├── is-number
+│   ├── @jest
+│   ├── jest-diff
+│   ├── jest-get-type
+│   ├── jest-matcher-utils
+│   ├── jest-message-util
+│   ├── jest-util
+│   ├── json5
+│   ├── js-tokens
+│   ├── lodash.memoize
+│   ├── lru-cache
+│   ├── make-error
+│   ├── micromatch
+│   ├── picomatch
+│   ├── prettier
+│   ├── pretty-format
+│   ├── react-is
+│   ├── semver
+│   ├── @sinclair
+│   ├── slash
+│   ├── stack-utils
+│   ├── supports-color
+│   ├── to-regex-range
+│   ├── ts-jest
+│   ├── @types
+│   ├── uuid
+│   ├── yallist
+│   └── yargs-parser
+├── package.json
+├── project_structure.txt
+├── requirements.txt
+├── tree.txt
+├── venv
+│   ├── b
+│   ├── bin
+│   ├── include
+│   ├── lib
+│   ├── lib64 -> lib
+│   └── pyvenv.cfg
+└── yarn.lock
+
+58 directories, 15 files
