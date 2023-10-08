@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import './App.css';
 import React, { useEffect, useState } from 'react';
+// import Button from '@mui/material/Button';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import TodoSlip from './components/TodoItem';
-import AddTodoCard from './components/AddTodoItemForm';
+import AddTodoItemDialog from './components/AddTodoItemDialog';
 import '@fontsource/roboto';
 import { TodoSlipProps as TodoItemProps } from './types/types';
 import { fetchTodoData } from './utils/fetchData';
@@ -23,6 +23,7 @@ function App(): JSX.Element {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     loadTodoData();
   }, []);
 
@@ -108,11 +109,16 @@ function App(): JSX.Element {
 
   return (
     <div className='App'>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {renderColumns('Incomplete', incompleteItems)}
-        {renderColumns('Complete', completeItems)}
-      </DragDropContext>
-      <AddTodoCard />
+      <div className='AddTodoCardDiv'>
+        <AddTodoItemDialog />
+      </div>
+      <br />
+      <div className='columnsDiv'>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {renderColumns('Incomplete', incompleteItems)}
+          {renderColumns('Complete', completeItems)}
+        </DragDropContext>
+      </div>
     </div>
   );
 }

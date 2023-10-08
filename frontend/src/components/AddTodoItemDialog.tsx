@@ -1,8 +1,13 @@
 import * as React from 'react';
-import { TextField, Button, Card, CardContent } from '@mui/material';
-import '../App.css';
-import '@fontsource/roboto';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { TodoSlipProps } from '../types/types';
+import '@fontsource/roboto';
 import { createTodo } from '../utils/todoServices';
 
 declare module '@mui/material/styles' {
@@ -17,14 +22,14 @@ declare module '@mui/material/styles' {
   }
 }
 
-function AddTodoItemForm(): JSX.Element {
+function AddTodoItemDialog(): JSX.Element {
+  const [open, setOpen] = React.useState(false);
   const [formData, setFormData] = React.useState<TodoSlipProps>({
     id: '',
     name: '',
     difficulty: 0,
     priority: 'low',
     notes: '',
-    // You can add other default values here
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,11 +49,27 @@ function AddTodoItemForm(): JSX.Element {
     void submitData();
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className='addTodoItemForm'>
-      <Card raised>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
+    <div className='addTodoItemDialog'>
+      <Button variant='outlined' onClick={handleClickOpen}>
+        Open form dialog
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Subscribe</DialogTitle>
+        <form onSubmit={handleSubmit}>
+          <DialogContent>
+            <DialogContentText>
+              To subscribe to this website, please enter your email address here. We will send
+              updates occasionally.
+            </DialogContentText>
             <TextField
               label='Name'
               name='name'
@@ -85,11 +106,15 @@ function AddTodoItemForm(): JSX.Element {
             <Button type='submit' variant='contained' color='primary' style={{ marginTop: '1rem' }}>
               New ToDo
             </Button>
-          </form>
-        </CardContent>
-      </Card>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button type='submit'>Submit</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     </div>
   );
 }
 
-export default AddTodoItemForm;
+export default AddTodoItemDialog;

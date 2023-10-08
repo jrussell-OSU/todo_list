@@ -4,7 +4,6 @@ body {
 }
 
 .App {
-  display: flex;
 }
 
 .todoItemsDiv {
@@ -18,13 +17,13 @@ body {
   padding: 10px;
 }
 
-.addTodoItemForm {
-  padding: 10px;
+.columnsDiv {
+  display: flex;
 }
 
-.cardButton {
-  height: 100%;
-  width: 100%;
+.addTodoItemDialog {
+  width: 20rem;
+  padding: 10px;
 }
 
 .droppable {
