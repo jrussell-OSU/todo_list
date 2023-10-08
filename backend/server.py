@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
-from google.cloud import firestore
+from google.cloud import firestore  # type: ignore
+from typing import Dict, List, TypedDict
 
 app = Flask(__name__)
 CORS(app)
@@ -8,27 +9,36 @@ CORS(app)
 db = firestore.Client()
 
 
-def get_all_todos_for_all_users():
-    users_ref = db.collection('users')
-    users = users_ref.stream()
-    todos = []
-    for user in users:
-        todos_ref = db.collection('users').document(user.id).collection('todos')
-        todos_stream = todos_ref.stream()
-        for todo in todos_stream:
-            todos.append({"id": todo.id, **todo.to_dict()})
+class Todo(TypedDict):
+    id: str
+    name: str
+    difficulty: int
+    priority: str
+    notes: str
+
+
+def get_all_todos():
+    todos: List[Todo] = []
+    todos_ref = db.collection('todos')
+    todos_stream = todos_ref.stream()
+    for todo in todos_stream:
+        todos.append({"id": todo.id, **todo.to_dict()})
     return todos
+
+
+def new_todo(data: Todo):
+    return db.collection('todos').add(data)
 
 
 @app.route('/todos', methods=['GET', 'POST'])
 def handle_todos():
     if request.method == 'GET':
-        return get_all_todos_for_all_users()
+        return get_all_todos()
 
     elif request.method == 'POST':
-        data = request.data
-        print(f'got todo data: {data}')
-        return data
+        new_doc = new_todo(request.json)
+        print(f'Added new document: {new_doc}')
+        return get_all_todos()
 
 
 if __name__ == "__main__":

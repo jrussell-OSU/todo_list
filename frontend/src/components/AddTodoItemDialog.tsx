@@ -1,11 +1,14 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import {
+  Dialog,
+  Button,
+  TextField,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { green } from '@mui/material/colors';
 import { TodoSlipProps } from '../types/types';
 import '@fontsource/roboto';
 import { createTodo } from '../utils/todoServices';
@@ -22,7 +25,19 @@ declare module '@mui/material/styles' {
   }
 }
 
-function AddTodoItemDialog(): JSX.Element {
+type AddTodoItemDialogProps = {
+  onTodoAdded: () => void;
+};
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: green[500],
+    },
+  },
+});
+
+function AddTodoItemDialog({ onTodoAdded }: AddTodoItemDialogProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [formData, setFormData] = React.useState<TodoSlipProps>({
     id: '',
@@ -40,15 +55,6 @@ function AddTodoItemDialog(): JSX.Element {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const submitData = async () => {
-      await createTodo(formData);
-    };
-    // eslint-disable-next-line no-void
-    void submitData();
-  };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -57,19 +63,28 @@ function AddTodoItemDialog(): JSX.Element {
     setOpen(false);
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const submitData = async () => {
+      await createTodo(formData);
+    };
+    // eslint-disable-next-line no-void
+    void submitData();
+    onTodoAdded();
+    handleClose();
+  };
+
   return (
     <div className='addTodoItemDialog'>
-      <Button variant='outlined' onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
+      <ThemeProvider theme={theme}>
+        <Button variant='contained' onClick={handleClickOpen}>
+          Add New Todo
+        </Button>
+      </ThemeProvider>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Add New Todo</DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send
-              updates occasionally.
-            </DialogContentText>
             <TextField
               label='Name'
               name='name'
@@ -103,9 +118,6 @@ function AddTodoItemDialog(): JSX.Element {
               margin='normal'
               fullWidth
             />
-            <Button type='submit' variant='contained' color='primary' style={{ marginTop: '1rem' }}>
-              New ToDo
-            </Button>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

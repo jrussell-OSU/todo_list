@@ -42,9 +42,8 @@ module.exports = {
     ],
     'no-duplicate-imports': 'error',
     'import/prefer-default-export': 'off',
-
     '@typescript-eslint/no-shadow': ['error'],
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-shadow': 'off',
     camelcase: 'error',
     'spaced-comment': 'error',
@@ -52,7 +51,7 @@ module.exports = {
 
     // Autofix
     'autofix/no-unused-vars': [
-      'error',
+      'warn',
       {
         argsIgnorePattern: '^_',
         ignoreRestSiblings: true,

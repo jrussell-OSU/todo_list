@@ -110,7 +110,7 @@ function App(): JSX.Element {
   return (
     <div className='App'>
       <div className='AddTodoCardDiv'>
-        <AddTodoItemDialog />
+        <AddTodoItemDialog onTodoAdded={loadTodoData} />
       </div>
       <br />
       <div className='columnsDiv'>
