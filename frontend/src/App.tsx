@@ -9,6 +9,7 @@ import '@fontsource/roboto';
 import { TodoSlipProps as TodoItemProps } from './types/types';
 import { fetchTodoData } from './utils/fetchData';
 import { reorderSameColumn, reorderBetweenColumns } from './utils/reorderUtils';
+import { workerData } from 'worker_threads';
 
 function App(): JSX.Element {
   const [incompleteItems, setIncompleteItems] = useState<Array<TodoItemProps>>([]);
@@ -16,8 +17,9 @@ function App(): JSX.Element {
 
   const loadTodoData = async () => {
     try {
-      const data = (await fetchTodoData()) as TodoItemProps[] | [];
-      setIncompleteItems(data);
+      const todos = (await fetchTodoData()) as TodoItemProps[] | [];
+      setIncompleteItems(todos.filter((todo) => todo.status === 'incomplete'));
+      setCompleteItems(todos.filter((todo) => todo.status === 'complete'));
     } catch (error) {
       console.error(`Error fetching data: ${String(error)}`);
     }
