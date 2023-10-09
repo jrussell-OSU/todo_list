@@ -3,7 +3,7 @@ import { TodoSlipProps } from '../types/types';
 export async function createTodo(todo: TodoSlipProps) {
   try {
     const response = await fetch('/todos', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -15,5 +15,23 @@ export async function createTodo(todo: TodoSlipProps) {
     }
   } catch (error) {
     console.error('There was a problem posting the todo:', error);
+  }
+}
+
+export async function updateTodo(todo: TodoSlipProps) {
+  try {
+    const response = await fetch(`/todos/${todo.id}/status`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(todo.status),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error updating todo slip: ${response.status}: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('There was a problem updating the todo:', error);
   }
 }

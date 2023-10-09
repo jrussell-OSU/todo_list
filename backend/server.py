@@ -48,7 +48,7 @@ def add_new_todo(data: Todo) -> None:
 
 
 def is_valid_todo(data: dict) -> bool:
-    required_keys = {"name", "difficulty", "priority", "notes"}
+    required_keys = {"name", "difficulty", "priority", "notes", "status"}
     return required_keys.issubset(data.keys()) or False
 
 
@@ -70,7 +70,7 @@ def handle_todos() -> Response:
 
 @app.route('/todos/<todo_id>/status', methods=['PATCH'])
 def update_todo_status(todo_id) -> Response:
-    status = request.json.get('status')
+    status = request.json
     if not status:
         return jsonify({"error": "todo 'status' field is required"})
 

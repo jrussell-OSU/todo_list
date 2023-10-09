@@ -9,7 +9,7 @@ import '@fontsource/roboto';
 import { TodoSlipProps as TodoItemProps } from './types/types';
 import { fetchTodoData } from './utils/fetchData';
 import { reorderSameColumn, reorderBetweenColumns } from './utils/reorderUtils';
-import { workerData } from 'worker_threads';
+import { updateTodo } from './utils/todoServices';
 
 function App(): JSX.Element {
   const [incompleteItems, setIncompleteItems] = useState<Array<TodoItemProps>>([]);
@@ -57,6 +57,14 @@ function App(): JSX.Element {
           ? incompleteItems[source.index]
           : completeItems[source.index];
       movingItem.status = destination.droppableId.toLowerCase();
+
+      updateTodo(movingItem)
+        .then(() => {
+          console.log('Successfully updated todo');
+        })
+        .catch((error) => {
+          console.error('Error updating todo', error);
+        });
 
       // Move the actual todo item from one column to another
       const [reorderedSourceItems, reorderedDestItems] = reorderBetweenColumns(
