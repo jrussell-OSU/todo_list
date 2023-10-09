@@ -58,12 +58,18 @@ function App(): JSX.Element {
           : completeItems[source.index];
       movingItem.status = destination.droppableId.toLowerCase();
 
+      // If background update fails, revert frontend "optimistic" changes
+      const savedIncompleteItems = [...incompleteItems];
+      const savedCompleteItems = [...completeItems];
+
       updateTodo(movingItem)
         .then(() => {
           console.log('Successfully updated todo');
         })
         .catch((error) => {
           console.error('Error updating todo', error);
+          setIncompleteItems(savedIncompleteItems);
+          setCompleteItems(savedCompleteItems);
         });
 
       // Move the actual todo item from one column to another
