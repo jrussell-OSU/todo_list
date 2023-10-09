@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import './App.css';
 import React, { useEffect, useState } from 'react';
 // import Button from '@mui/material/Button';
@@ -47,6 +48,15 @@ function App(): JSX.Element {
       }
     } else {
       // If moving between columns
+
+      // Change status depending on which column it's moving to
+      const movingItem =
+        source.droppableId === 'Incomplete'
+          ? incompleteItems[source.index]
+          : completeItems[source.index];
+      movingItem.status = destination.droppableId.toLowerCase();
+
+      // Move the actual todo item from one column to another
       const [reorderedSourceItems, reorderedDestItems] = reorderBetweenColumns(
         source,
         destination,
@@ -75,6 +85,7 @@ function App(): JSX.Element {
               difficulty={item.difficulty}
               priority={item.priority}
               notes={item.notes}
+              status={item.status}
             />
           </div>
         )}

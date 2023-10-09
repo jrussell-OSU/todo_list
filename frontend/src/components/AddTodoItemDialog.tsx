@@ -45,6 +45,7 @@ function AddTodoItemDialog({ onTodoAdded }: AddTodoItemDialogProps): JSX.Element
     difficulty: 0,
     priority: 'low',
     notes: '',
+    status: 'incomplete',
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

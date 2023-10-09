@@ -1,13 +1,14 @@
 import { reorderSameColumn, reorderBetweenColumns } from './utils/reorderUtils';
 import { TodoSlipProps } from './types/types';
 
-const sampleItems1 = [
+const incompleteItems = [
   {
     id: '1',
     name: 'name1',
     priority: 'medium',
     difficulty: 1,
     notes: 'test todo #1',
+    status: 'incomplete',
   },
   {
     id: '2',
@@ -15,6 +16,7 @@ const sampleItems1 = [
     priority: 'low',
     difficulty: 2,
     notes: 'test todo #2',
+    status: 'incomplete',
   },
   {
     id: '3',
@@ -22,16 +24,18 @@ const sampleItems1 = [
     priority: 'high',
     difficulty: 3,
     notes: 'test todo #3',
+    status: 'incomplete',
   },
 ];
 
-const sampleItems2 = [
+const completeItems = [
   {
     id: '4',
     name: 'name4',
     priority: 'medium',
     difficulty: 4,
     notes: 'test todo #4',
+    status: 'complete',
   },
   {
     id: '5',
@@ -39,6 +43,7 @@ const sampleItems2 = [
     priority: 'low',
     difficulty: 5,
     notes: 'test todo #5',
+    status: 'complete',
   },
   {
     id: '6',
@@ -46,6 +51,7 @@ const sampleItems2 = [
     priority: 'high',
     difficulty: 6,
     notes: 'test todo #6',
+    status: 'complete',
   },
 ];
 
@@ -71,9 +77,9 @@ describe('reorderSameColumn', () => {
     const sourceIndex = { index: source, droppableId: 'incomplete' };
     const destIndex = { index: dest, droppableId: 'incomplete' };
 
-    const result = reorderSameColumn(sourceIndex, destIndex, [...sampleItems1]);
+    const result = reorderSameColumn(sourceIndex, destIndex, [...incompleteItems]);
 
-    const expected = reorderOneArray(sourceIndex.index, destIndex.index, [...sampleItems1]);
+    const expected = reorderOneArray(sourceIndex.index, destIndex.index, [...incompleteItems]);
 
     expect(result).toEqual(expected);
   });
@@ -99,15 +105,15 @@ describe('reorderBetweenColumns', () => {
     const result = reorderBetweenColumns(
       sourceIndex,
       destIndex,
-      [...sampleItems1],
-      [...sampleItems2],
+      [...incompleteItems],
+      [...completeItems],
     );
 
     const expected = reorderTwoArrays(
       sourceIndex.index,
       destIndex.index,
-      [...sampleItems1],
-      [...sampleItems2],
+      [...incompleteItems],
+      [...completeItems],
     );
 
     expect(result).toEqual(expected);

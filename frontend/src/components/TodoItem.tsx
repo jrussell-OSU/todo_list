@@ -46,16 +46,6 @@ function TodoSlip(props: TodoSlipProps): JSX.Element {
     },
   });
 
-  /*
-  const onTodoSlipClick = () => {
-    if (slipVariant === 'slipNormal') {
-      setSlipVariant('slipStrikethrough')
-    } else {
-      setSlipVariant('slipNormal')
-    }
-  }
-  */
-
   const { name, difficulty, priority, notes } = props;
   return (
     <div className='todoItem'>
