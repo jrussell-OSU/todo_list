@@ -2,7 +2,14 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 // import Button from '@mui/material/Button';
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+  DraggableLocation,
+  DroppableId,
+} from 'react-beautiful-dnd';
 import TodoSlip from './components/TodoItem';
 import AddTodoItemDialog from './components/AddTodoItemDialog';
 import '@fontsource/roboto';
@@ -25,10 +32,49 @@ function App(): JSX.Element {
     }
   };
 
+  type SetStateFunction = (items: Array<TodoItemProps>) => void;
+
+  const updateFunctionMap: Record<DroppableId, SetStateFunction> = {
+    Incomplete: setIncompleteItems,
+    Complete: setCompleteItems,
+  };
+
+  const itemArraysMap: Record<DroppableId, TodoItemProps[]> = {
+    Incomplete: incompleteItems,
+    Complete: completeItems,
+  };
+
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     loadTodoData();
   }, []);
+
+  const handleSameColumnMovement = (
+    source: DraggableLocation,
+    dest: DraggableLocation,
+    items: TodoItemProps[],
+  ) => {
+    const reorderedItems = reorderSameColumn(source, dest, items);
+    const updateColumnFunction = updateFunctionMap[source.droppableId];
+    if (updateColumnFunction) {
+      updateColumnFunction(reorderedItems);
+    }
+  };
+
+  const handleBetweenColumnMovement = (source: DraggableLocation, dest: DraggableLocation) => {
+    const sourceItems = itemArraysMap[source.droppableId];
+    const destItems = itemArraysMap[dest.droppableId];
+    const [reorderedSourceItems, reorderedDestItems] = reorderBetweenColumns(
+      source,
+      dest,
+      sourceItems,
+      destItems,
+    );
+    const updateSourceColumnFunction = updateFunctionMap[source.droppableId];
+    const updateDestColumnFunction = updateFunctionMap[dest.droppableId];
+    updateSourceColumnFunction(reorderedSourceItems);
+    updateDestColumnFunction(reorderedDestItems);
+  };
 
   // update order of TodoItems
   const onDragEnd = (result: DropResult) => {
@@ -38,18 +84,14 @@ function App(): JSX.Element {
 
     // If moving a TodoItem around in the same column
     if (source.droppableId === destination.droppableId) {
-      const reorderedItems = reorderSameColumn(
+      handleSameColumnMovement(
         source,
         destination,
         source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
       );
-      if (source.droppableId === 'Incomplete') {
-        setIncompleteItems(reorderedItems);
-      } else {
-        setCompleteItems(reorderedItems);
-      }
     } else {
       // If moving between columns
+      handleBetweenColumnMovement(source, destination);
 
       // Change status depending on which column it's moving to
       const movingItem =
@@ -58,34 +100,19 @@ function App(): JSX.Element {
           : completeItems[source.index];
       movingItem.status = destination.droppableId.toLowerCase();
 
-      // If background update fails, revert frontend "optimistic" changes
+      // Save items before change, to revert frontend "optimistic" changes if backend updates fail
       const savedIncompleteItems = [...incompleteItems];
       const savedCompleteItems = [...completeItems];
 
       updateTodo(movingItem)
         .then(() => {
-          console.log('Successfully updated todo');
+          handleBetweenColumnMovement(source, destination);
         })
         .catch((error) => {
           console.error('Error updating todo', error);
           setIncompleteItems(savedIncompleteItems);
           setCompleteItems(savedCompleteItems);
         });
-
-      // Move the actual todo item from one column to another
-      const [reorderedSourceItems, reorderedDestItems] = reorderBetweenColumns(
-        source,
-        destination,
-        source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
-        destination.droppableId === 'Incomplete' ? incompleteItems : completeItems,
-      );
-      if (source.droppableId === 'Incomplete') {
-        setIncompleteItems(reorderedSourceItems);
-        setCompleteItems(reorderedDestItems);
-      } else {
-        setIncompleteItems(reorderedDestItems);
-        setCompleteItems(reorderedSourceItems);
-      }
     }
   };
 
@@ -125,7 +152,7 @@ function App(): JSX.Element {
               borderRadius: '5px',
             }}
           >
-            <div className='droppable-header'>{columnId} Tasks</div>
+            <div className='droppable-header'>{columnId}</div>
             {todoSlipsComponents(items)}
             {provided.placeholder}
           </div>
