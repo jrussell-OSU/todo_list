@@ -1,5 +1,5 @@
 import { reorderSameColumn, reorderBetweenColumns } from './utils/reorderUtils';
-import { TodoSlipProps } from './types/types';
+import { TodoProps } from './types/types';
 
 const incompleteItems = [
   {
@@ -66,7 +66,7 @@ function createIndexPairs() {
   return testIndices;
 }
 
-function reorderOneArray(sourceIndex: number, destIndex: number, arr: TodoSlipProps[]) {
+function reorderOneArray(sourceIndex: number, destIndex: number, arr: TodoProps[]) {
   const [e] = arr.splice(sourceIndex, 1);
   arr.splice(destIndex, 0, e);
   return arr;
@@ -88,8 +88,8 @@ describe('reorderSameColumn', () => {
 function reorderTwoArrays(
   sourceIndex: number,
   destIndex: number,
-  arr1: TodoSlipProps[],
-  arr2: TodoSlipProps[],
+  arr1: TodoProps[],
+  arr2: TodoProps[],
 ) {
   const [e] = arr1.splice(sourceIndex, 1);
   arr2.splice(destIndex, 0, e);

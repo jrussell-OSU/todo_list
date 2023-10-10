@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
-import { TodoSlipProps } from '../types/types';
+import { TodoProps } from '../types/types';
 import '@fontsource/roboto';
 import { createTodo } from '../utils/todoServices';
 
@@ -39,7 +39,7 @@ const theme = createTheme({
 
 function AddTodoItemDialog({ onTodoAdded }: AddTodoItemDialogProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  const [formData, setFormData] = React.useState<TodoSlipProps>({
+  const [formData, setFormData] = React.useState<TodoProps>({
     id: '',
     name: '',
     difficulty: 0,

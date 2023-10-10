@@ -1,6 +1,6 @@
-import { TodoSlipProps } from '../types/types';
+import { TodoProps } from '../types/types';
 
-export async function createTodo(todo: TodoSlipProps) {
+export async function createTodo(todo: TodoProps) {
   try {
     const response = await fetch('/todos', {
       method: 'PUT',
@@ -18,7 +18,7 @@ export async function createTodo(todo: TodoSlipProps) {
   }
 }
 
-export async function updateTodo(todo: TodoSlipProps) {
+export async function updateTodo(todo: TodoProps) {
   try {
     const response = await fetch(`/todos/${todo.id}/status`, {
       method: 'PATCH',

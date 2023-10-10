@@ -1,4 +1,4 @@
-export interface TodoSlipProps {
+export interface TodoProps {
   name: string;
   difficulty: number;
   priority: string;

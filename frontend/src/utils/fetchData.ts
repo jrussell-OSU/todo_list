@@ -1,8 +1,8 @@
-import { TodoSlipProps } from '../types/types';
+import { TodoProps } from '../types/types';
 
 const ENDPOINT = 'todos';
 
-export const fetchTodoData = async (): Promise<TodoSlipProps[]> => {
+export const fetchTodoData = async (): Promise<TodoProps[]> => {
   try {
     const response = await fetch(ENDPOINT);
 
@@ -13,7 +13,7 @@ export const fetchTodoData = async (): Promise<TodoSlipProps[]> => {
       throw new Error('Failed to load your todo slips. Please try to reload the page.');
     }
 
-    const data = (await response.json()) as TodoSlipProps[];
+    const data = (await response.json()) as TodoProps[];
     return data;
   } catch (error) {
     console.error(`Error fetching loadTodoData:`, error);

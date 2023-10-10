@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, createTheme, ThemeProvider } from '@mui/
 import '../App.css';
 import '@fontsource/roboto';
 import { blueGrey, grey } from '@mui/material/colors';
-import { TodoSlipProps } from '../types/types';
+import { TodoProps } from '../types/types';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
@@ -17,7 +17,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-function TodoSlip(props: TodoSlipProps): JSX.Element {
+function Todo(props: TodoProps): JSX.Element {
   // const [slipVariant, setSlipVariant] = useState('slipNormal')
 
   const theme = createTheme({
@@ -65,4 +65,4 @@ function TodoSlip(props: TodoSlipProps): JSX.Element {
   );
 }
 
-export default TodoSlip;
+export default Todo;

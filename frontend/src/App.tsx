@@ -10,21 +10,21 @@ import {
   DraggableLocation,
   DroppableId,
 } from 'react-beautiful-dnd';
-import TodoSlip from './components/TodoItem';
+import TodoSlip from './components/Todo';
 import AddTodoItemDialog from './components/AddTodoItemDialog';
 import '@fontsource/roboto';
-import { TodoSlipProps as TodoItemProps } from './types/types';
+import { TodoProps } from './types/types';
 import { fetchTodoData } from './utils/fetchData';
 import { reorderSameColumn, reorderBetweenColumns } from './utils/reorderUtils';
 import { updateTodo } from './utils/todoServices';
 
 function App(): JSX.Element {
-  const [incompleteItems, setIncompleteItems] = useState<Array<TodoItemProps>>([]);
-  const [completeItems, setCompleteItems] = useState<Array<TodoItemProps>>([]);
+  const [incompleteItems, setIncompleteItems] = useState<Array<TodoProps>>([]);
+  const [completeItems, setCompleteItems] = useState<Array<TodoProps>>([]);
 
   const loadTodoData = async () => {
     try {
-      const todos = (await fetchTodoData()) as TodoItemProps[] | [];
+      const todos = (await fetchTodoData()) as TodoProps[] | [];
       setIncompleteItems(todos.filter((todo) => todo.status === 'incomplete'));
       setCompleteItems(todos.filter((todo) => todo.status === 'complete'));
     } catch (error) {
@@ -32,14 +32,14 @@ function App(): JSX.Element {
     }
   };
 
-  type SetStateFunction = (items: Array<TodoItemProps>) => void;
+  type SetStateFunction = (items: Array<TodoProps>) => void;
 
   const updateFunctionMap: Record<DroppableId, SetStateFunction> = {
     Incomplete: setIncompleteItems,
     Complete: setCompleteItems,
   };
 
-  const itemArraysMap: Record<DroppableId, TodoItemProps[]> = {
+  const itemArraysMap: Record<DroppableId, TodoProps[]> = {
     Incomplete: incompleteItems,
     Complete: completeItems,
   };
@@ -52,7 +52,7 @@ function App(): JSX.Element {
   const handleSameColumnMovement = (
     source: DraggableLocation,
     dest: DraggableLocation,
-    items: TodoItemProps[],
+    items: TodoProps[],
   ) => {
     const reorderedItems = reorderSameColumn(source, dest, items);
     const updateColumnFunction = updateFunctionMap[source.droppableId];
@@ -82,7 +82,6 @@ function App(): JSX.Element {
 
     if (!destination) return;
 
-    // If moving a TodoItem around in the same column
     if (source.droppableId === destination.droppableId) {
       handleSameColumnMovement(
         source,
@@ -90,7 +89,6 @@ function App(): JSX.Element {
         source.droppableId === 'Incomplete' ? incompleteItems : completeItems,
       );
     } else {
-      // If moving between columns
       handleBetweenColumnMovement(source, destination);
 
       // Change status depending on which column it's moving to
@@ -116,7 +114,7 @@ function App(): JSX.Element {
     }
   };
 
-  const todoSlipsComponents = (todoItems: TodoItemProps[]): JSX.Element[] =>
+  const todoSlipsComponents = (todoItems: TodoProps[]): JSX.Element[] =>
     todoItems.map((item, index: number) => (
       <Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided) => (
@@ -135,7 +133,7 @@ function App(): JSX.Element {
       </Draggable>
     ));
 
-  const renderColumns = (columnId: string, items: TodoItemProps[]) => (
+  const renderColumns = (columnId: string, items: TodoProps[]) => (
     <div className='todoItemsDiv'>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (

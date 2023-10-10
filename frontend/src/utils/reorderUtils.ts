@@ -1,10 +1,10 @@
 import { DraggableLocation } from 'react-beautiful-dnd';
-import { TodoSlipProps } from '../types/types';
+import { TodoProps } from '../types/types';
 
 export const reorderSameColumn = (
   source: DraggableLocation,
   destination: DraggableLocation,
-  items: TodoSlipProps[],
+  items: TodoProps[],
 ) => {
   const reorderedItems = Array.from(items);
   const [reorderedItem] = reorderedItems.splice(source.index, 1);
@@ -15,8 +15,8 @@ export const reorderSameColumn = (
 export const reorderBetweenColumns = (
   source: DraggableLocation,
   destination: DraggableLocation,
-  sourceItems: TodoSlipProps[],
-  destItems: TodoSlipProps[],
+  sourceItems: TodoProps[],
+  destItems: TodoProps[],
 ) => {
   const reorderedSourceItems = Array.from(sourceItems);
   const reorderedDestItems = Array.from(destItems);
