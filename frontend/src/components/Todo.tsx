@@ -18,8 +18,6 @@ declare module '@mui/material/styles' {
 }
 
 function Todo(props: TodoProps): JSX.Element {
-  // const [slipVariant, setSlipVariant] = useState('slipNormal')
-
   const theme = createTheme({
     palette: {
       background: {
@@ -48,7 +46,7 @@ function Todo(props: TodoProps): JSX.Element {
 
   const { name, difficulty, priority, notes } = props;
   return (
-    <div className='todoItem'>
+    <div className='todo'>
       <ThemeProvider theme={theme}>
         <Card raised>
           <CardContent>

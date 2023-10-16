@@ -6,13 +6,13 @@ body {
 .App {
 }
 
-.todoItemsDiv {
+.todosDiv {
   justify-content: 'space-between';
   padding: 10px;
   width: 'fit-content';
 }
 
-.todoItem {
+.todo {
   width: 12rem;
   padding: 10px;
 }
@@ -21,7 +21,7 @@ body {
   display: flex;
 }
 
-.addTodoItemDialog {
+.addTodoDialog {
   width: 20rem;
   padding: 10px;
 }

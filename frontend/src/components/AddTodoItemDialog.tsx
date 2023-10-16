@@ -76,7 +76,7 @@ function AddTodoItemDialog({ onTodoAdded }: AddTodoItemDialogProps): JSX.Element
   };
 
   return (
-    <div className='addTodoItemDialog'>
+    <div className='addTodoDialog'>
       <ThemeProvider theme={theme}>
         <Button variant='contained' onClick={handleClickOpen}>
           Add New Todo

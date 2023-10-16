@@ -12,23 +12,17 @@ import {
 import TodoSlip from './Todo';
 import '@fontsource/roboto';
 import { TodoProps } from '../types/types';
-import { fetchTodoData } from '../utils/fetchData';
 import { reorderSameColumn, reorderBetweenColumns } from '../utils/reorderUtils';
 import { updateTodo } from '../utils/todoServices';
 
-function TodoColumns(): JSX.Element {
+function TodoColumns({ todos }: { todos: TodoProps[] }): JSX.Element {
   const [incompleteItems, setIncompleteItems] = useState<Array<TodoProps>>([]);
   const [completeItems, setCompleteItems] = useState<Array<TodoProps>>([]);
 
-  const loadTodoData = async () => {
-    try {
-      const todos = (await fetchTodoData()) as TodoProps[] | [];
-      setIncompleteItems(todos.filter((todo) => todo.status === 'incomplete'));
-      setCompleteItems(todos.filter((todo) => todo.status === 'complete'));
-    } catch (error) {
-      console.error(`Error fetching data: ${String(error)}`);
-    }
-  };
+  useEffect(() => {
+    setIncompleteItems(todos.filter((todo) => todo.status === 'incomplete'));
+    setCompleteItems(todos.filter((todo) => todo.status === 'complete'));
+  }, [todos]);
 
   type SetStateFunction = (items: Array<TodoProps>) => void;
 
@@ -41,11 +35,6 @@ function TodoColumns(): JSX.Element {
     Incomplete: incompleteItems,
     Complete: completeItems,
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    loadTodoData();
-  }, []);
 
   const handleSameColumnMovement = (
     source: DraggableLocation,
@@ -139,7 +128,7 @@ function TodoColumns(): JSX.Element {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {columnsToRender.map(({ columnId, items }) => (
-        <div className='todoItemsDiv' key={columnId}>
+        <div className='todosDiv' key={columnId}>
           <Droppable droppableId={columnId}>
             {(provided, snapshot) => (
               <div
